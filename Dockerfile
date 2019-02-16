@@ -43,6 +43,18 @@ RUN docker-php-ext-install gd && \
     docker-php-ext-install gd
 
 #####################################
+# Xdebug:
+#####################################
+
+# install autoconf for pecl
+RUN apk --update add autoconf build-base php7-pcntl && \
+    docker-php-ext-install pcntl
+
+# install xdebug
+RUN pecl -q install xdebug-2.6.1
+
+
+#####################################
 # Composer:
 #####################################
 
