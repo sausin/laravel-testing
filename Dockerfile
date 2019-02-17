@@ -1,6 +1,5 @@
 FROM php:7.0-alpine
 
-
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
@@ -34,10 +33,13 @@ RUN apk --no-cache --update add curl \
         --with-jpeg-dir=/usr/lib \
         --with-freetype-dir=/usr/include/freetype2 && \
     docker-php-ext-install gd && \
-    apk --update add autoconf build-base php7-pcntl && \
+    # Install pcntl and xdebug
+    apk add --update --no-cache --virtual .build-deps autoconf build-base php7-pcntl && \
     docker-php-ext-install pcntl && \
     pecl -q install xdebug-2.6.1 \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
+    # cleanup
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
+    && apk del .build-deps
 
 #####################################
 # Composer:
@@ -49,7 +51,8 @@ RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     . ~/.bashrc && \
     export COMPOSER_ALLOW_SUPERUSER=1 && \
-    composer global require hirak/prestissimo
+    composer global require "squizlabs/php_codesniffer=*" hirak/prestissimo \
+        --no-interaction --no-progress --no-ansi --no-scripts
 
 ####################################
 # Final Touches
