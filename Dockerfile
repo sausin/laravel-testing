@@ -28,31 +28,16 @@ RUN apk --no-cache --update add curl \
     --with-jpeg-dir=/usr/lib \
     --with-freetype-dir=/usr/include/freetype2 && \
     docker-php-ext-install gd \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
-
-#####################################
-# GD:
-#####################################
-
-# Install the PHP gd library
-RUN docker-php-ext-install gd && \
+    && docker-php-ext-install gd && \
     docker-php-ext-configure gd \
         --enable-gd-native-ttf \
         --with-jpeg-dir=/usr/lib \
         --with-freetype-dir=/usr/include/freetype2 && \
-    docker-php-ext-install gd
-
-#####################################
-# Xdebug:
-#####################################
-
-# install autoconf for pecl
-RUN apk --update add autoconf build-base php7-pcntl && \
-    docker-php-ext-install pcntl
-
-# install xdebug
-RUN pecl -q install xdebug-2.6.1
-
+    docker-php-ext-install gd && \
+    apk --update add autoconf build-base php7-pcntl && \
+    docker-php-ext-install pcntl && \
+    pecl -q install xdebug-2.6.1 \
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 #####################################
 # Composer:
@@ -61,12 +46,10 @@ RUN pecl -q install xdebug-2.6.1
 # Install composer and add its bin to the PATH.
 RUN curl -s http://getcomposer.org/installer | php && \
     echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc && \
-    mv composer.phar /usr/local/bin/composer
-# Source the bash
-RUN . ~/.bashrc
-
-RUN export COMPOSER_ALLOW_SUPERUSER=1
-RUN composer global require hirak/prestissimo
+    mv composer.phar /usr/local/bin/composer && \
+    . ~/.bashrc && \
+    export COMPOSER_ALLOW_SUPERUSER=1 && \
+    composer global require hirak/prestissimo
 
 ####################################
 # Final Touches
