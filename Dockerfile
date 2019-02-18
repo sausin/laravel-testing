@@ -17,6 +17,7 @@ RUN apk --no-cache --update add curl \
     # Install the PHP tokenizer extension
     tokenizer \
     # Install the PHP ZipArchive:
+    libzip-dev \ 
     zip \
     # Install the PHP gd library
     && docker-php-ext-configure gd \
