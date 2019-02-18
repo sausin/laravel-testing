@@ -11,13 +11,13 @@ RUN apk --no-cache --update add curl \
     openssl-dev \
     libmcrypt \
     libmcrypt-dev \
+    libzip-dev \
     && docker-php-ext-install \
     # Install the PHP pdo_mysql extension
     pdo_mysql \
     # Install the PHP tokenizer extension
     tokenizer \
     # Install the PHP ZipArchive:
-    libzip-dev \ 
     zip \
     # Install the PHP gd library
     && docker-php-ext-configure gd \
