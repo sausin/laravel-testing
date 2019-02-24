@@ -34,7 +34,7 @@ RUN apk --no-cache --update add curl \
     # Install pcntl and xdebug
     apk add --update --no-cache --virtual .build-deps autoconf build-base php7-pcntl && \
     docker-php-ext-install pcntl && \
-    pecl -q install xdebug-2.6.1 pecl-1.0.2 \
+    pecl -q install xdebug-2.6.1 mcrypt-1.0.2 \
     # cleanup
     && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
     && apk del .build-deps
