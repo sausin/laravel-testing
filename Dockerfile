@@ -21,9 +21,6 @@ RUN apk --no-cache --update add curl \
     zip \
     # Install the PHP gd library
     && docker-php-ext-install gd && \
-    docker-php-ext-configure gd \
-        --with-jpeg-dir=/usr/lib \
-        --with-freetype-dir=/usr/include/freetype2 && \
     # Install pcntl and xdebug
     apk add --update --no-cache --virtual .build-deps autoconf build-base php7-pcntl && \
     docker-php-ext-install pcntl && \
