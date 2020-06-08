@@ -45,6 +45,7 @@ RUN curl -s http://getcomposer.org/installer | php && \
 ####################################
 # Final Touches
 ####################################
+RUN echo 'memory_limit = 256M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
 WORKDIR /var/www
 
